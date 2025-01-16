@@ -32,6 +32,14 @@ body {
     height: 100%;
 }
 
+main {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+}
+
 .gameSide {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -42,14 +50,8 @@ body {
     width: 500px;
     height: 500px;
 
-}
+    pointer-events: none;
 
-main {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    width: 100%;
 }
 
 .square {
@@ -60,6 +62,18 @@ main {
 
     cursor: pointer;
 }
+
+.square:hover {
+    background-color: #a57963 !important;
+
+    transition: background .3s;
+}
+
+/* .square:active {
+    background-color: #98FB98 !important;
+
+    transition: background .3s;
+} */
 
 .square:nth-of-type(1) {
     border-top-left-radius: 6px;
