@@ -136,7 +136,12 @@
         <div class="square" id="sq_9"></div>
       </div>
       <div class="startSide">
-        <button class="startBtn" onclick="startingGame()">Start</button>
+        <button class="startBtn" onclick="startingGame(event)">Start</button>
+        <div class="difficultArea" onclick="difficultChange(event)">
+          <button class="difficultyBtn" id="diff1">Normal</button>
+          <button class="difficultyBtn" id="diff2">Hard</button>
+          <button class="difficultyBtn" id="diff3">rm -rf /</button>
+        </div>
         <div class="winnerMessage">
           Some people are born to win, and I guess you are one of them.
         </div>
@@ -153,6 +158,7 @@
     const startButton = document.getElementsByClassName("startBtn")[0];
     const winnerMessage = document.getElementsByClassName("winnerMessage")[0];
     const loserMessage = document.getElementsByClassName("loserMessage")[0];
+    let currentDifficulty = document.getElementById("diff1");
     let targetSquares = square.sort(() => Math.random() - 0.5);
     let playerIds = [];
 
@@ -163,9 +169,21 @@
 
         square.forEach((sq) => {
           sq.disabled = false;
-          sq.style.pointerEvents = "auto";
           sq.style.backgroundColor = "#FFBB98";
         });
+      }
+
+      if (currentDifficulty.id === "diff1") {
+        container.style.filter = "blur(5px)";
+      } else if (currentDifficulty.id === "diff2") {
+        container.style.filter = "blur(20px)";
+        container.style.transform = "rotate(0.5turn)";
+      } else {
+        container.style.filter = "blur(20px)";
+        container.style.transform = "rotate(0.5turn)";
+        setTimeout(() => {
+          container.style.transform = "rotate(-1.5turn)";
+        }, 3500);
       }
 
       startButton.disabled = true;
@@ -176,8 +194,10 @@
       loserMessage.style.display = "none";
 
       setTimeout(() => {
+        container.style.transform = "none";
         container.style.pointerEvents = "auto";
-      }, 9000);
+        container.style.webkitFilter = "none";
+      }, 10000);
 
       targetSquares.forEach((el, i) => {
         const plusSecond = +(i + "000");
@@ -198,12 +218,13 @@
         const processedId = event.target.id.replace(/\D/gi, "") - 1;
 
         toggledSquare.disabled = true;
-        toggledSquare.style.pointerEvents = "none";
 
         if (
           targetSquares.indexOf(toggledSquare) !== playerIds.length ??
           playerIds.length - 1
         ) {
+          container.style.pointerEvents = "none";
+
           loserMessage.style.display = "block";
 
           startButton.disabled = false;
@@ -224,6 +245,21 @@
         } else toggledSquare.style.backgroundColor = "#9ce49c";
 
         playerIds.push(processedId);
+      }
+    };
+
+    const difficultChange = (event) => {
+      const toggledDifficult = document.getElementById(event.target.id);
+
+      if (toggledDifficult) {
+        currentDifficulty.style.filter = "none";
+        currentDifficulty.style.pointerEvents = "auto";
+        currentDifficulty.style.fontSize = "24px";
+
+        currentDifficulty = toggledDifficult;
+        toggledDifficult.style.filter = "contrast(50%)";
+        toggledDifficult.style.pointerEvents = "none";
+        toggledDifficult.style.fontSize = "20px";
       }
     };
   </script>
@@ -268,6 +304,8 @@
       align-items: center;
 
       width: 100%;
+
+      gap: 50px;
     }
 
     .gameSide {
@@ -281,6 +319,8 @@
       height: 500px;
 
       pointer-events: none;
+
+      transition: transform 2s;
     }
 
     .square {
@@ -319,7 +359,7 @@
       flex-direction: column;
       align-items: center;
       gap: 30px;
-      width: 20vw;
+      width: 25vw;
     }
 
     .startBtn {
@@ -360,6 +400,8 @@
       text-align: center;
 
       display: none;
+
+      padding: 12px 36px;
     }
 
     .winnerMessage {
@@ -368,6 +410,70 @@
 
     .loserMessage {
       background: #fa4235;
+    }
+    .difficultArea {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 20px;
+    }
+    .difficultyBtn {
+      font-size: 24px;
+
+      box-shadow: inset 0 0 7px #7d8e95;
+
+      border-radius: 6px;
+
+      transition: filter 0.3s, font-size 0.3s;
+
+      cursor: pointer;
+
+      color: #f0fbff;
+    }
+
+    .difficultyBtn:hover {
+      filter: contrast(60%);
+    }
+
+    .difficultyBtn:active {
+      filter: contrast(125%);
+    }
+
+    #diff1 {
+      background-color: #ffbb98;
+
+      filter: contrast(50%);
+      pointer-events: none;
+      font-size: 20px;
+    }
+
+    #diff2 {
+      background-color: #7d8e95;
+    }
+
+    #diff3 {
+      background-color: #fa4235;
+    }
+
+    @media (max-width: 1023px) {
+      main {
+        flex-direction: column-reverse;
+        padding-top: 10vh;
+      }
+
+      .logo {
+        top: 1vh;
+        width: 80vw;
+      }
+
+      .startSide {
+        width: 50vw;
+      }
+      .gameSide {
+        width: 70vw;
+        height: 70vw;
+      }
     }
   </style>
 </html>
