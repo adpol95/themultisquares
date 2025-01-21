@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>This is the title of the webpage!</title>
+    <title>themultisquares</title>
   </head>
   <body>
     <div class="logo">
@@ -219,10 +219,7 @@
 
         toggledSquare.disabled = true;
 
-        if (
-          targetSquares.indexOf(toggledSquare) !== playerIds.length ??
-          playerIds.length - 1
-        ) {
+        if (targetSquares.indexOf(toggledSquare) !== playerIds.length) {
           container.style.pointerEvents = "none";
 
           loserMessage.style.display = "block";
@@ -236,6 +233,8 @@
           targetSquares.indexOf(toggledSquare) ===
           targetSquares.length - 1
         ) {
+          container.style.pointerEvents = "none";
+
           winnerMessage.style.display = "block";
           toggledSquare.style.backgroundColor = "#9ce49c";
 
